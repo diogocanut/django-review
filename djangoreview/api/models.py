@@ -11,7 +11,7 @@ RATING_CHOICES = (
 
 
 class Review(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.CharField(
         choices=RATING_CHOICES, max_length=2, default='1')
     title = models.CharField(
