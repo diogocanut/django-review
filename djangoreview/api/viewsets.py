@@ -20,8 +20,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.request.user.is_superuser:
             return Review.objects.all()
-        else:
-            return Review.objects.filter(user=self.request.user)
+        return Review.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(

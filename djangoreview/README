@@ -1,0 +1,29 @@
+Running the project:
+    1- Clone this repo
+
+    2 - Create a virtualenv with python 3.6:
+        virtualenv djangoreview --python=python3.6
+
+    3 - Create a database named djangoreview (change the settings with your postgres user and password)
+
+    4 - Run migrations
+        python manage.py migrate
+
+    5 - Create a superuser.
+        python manage.py createsuperuser
+
+    6 - Run server
+        python manage.py runserver
+    Now the server is running in localhost.
+
+Usage: 
+
+    Registration with django rest-auth on url /rest-auth/registration
+
+    Login on /rest-auth/login
+
+    Logout on /rest-auth/logout
+
+    The review api is on /reviews
+
+    Only logged in users can post reviews, a GET method on /reviews will only return the reviews submitted by the logged user, except for the superuser, that can receive all the reviews.
