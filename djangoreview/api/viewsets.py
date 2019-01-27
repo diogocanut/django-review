@@ -24,4 +24,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
             return Review.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-        serializer.save(ip_address=get_client_ip(self.request))
+        serializer.save(
+            ip_address=get_client_ip(self.request),
+            user=self.request.user
+        )

@@ -1,16 +1,22 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_auth.registration.serializers import RegisterSerializer
 from .models import Review
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email')
+
+
 class ReviewSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(
-        default=serializers.CurrentUserDefault()
-    )
+    user = UserSerializer(many=False, read_only=True)
 
     class Meta:
         model = Review
-        exclude = ('ip_address',)
+        fields = '__all__'
+        read_only_fields = ('ip_address', 'user')
 
 
 class CustomRegisterSerializer(RegisterSerializer):
