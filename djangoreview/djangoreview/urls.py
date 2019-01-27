@@ -19,11 +19,11 @@ from rest_framework import routers
 from api.viewsets import ReviewViewSet
 
 router = routers.DefaultRouter()
-router.register('reviews', ReviewViewSet, 'Review')
+router.register('reviews', ReviewViewSet, basename='reviews')
 
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', include((router.urls, 'api'), namespace='api')),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('rest-auth/', include('rest_auth.urls')),
