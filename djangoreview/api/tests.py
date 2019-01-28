@@ -61,7 +61,7 @@ class TestViewSets(TestsMixin, TestCase):
         self.login()
         self.post(self.login_url, data=self.payload, status_code=status.HTTP_200_OK)
 
-        resp = self.get('/reviews/', )
+        resp = self.get('/reviews/', status_code=status.HTTP_200_OK)
         self.assertEqual(resp.json, [])
 
         review = Review.objects.create(
@@ -70,7 +70,7 @@ class TestViewSets(TestsMixin, TestCase):
             title='teste',
             summary='teste',
         )
-        resp = self.get('/reviews/', )
+        resp = self.get('/reviews/', status_code=status.HTTP_200_OK)
         self.assertEqual(resp.json[0]['user']['username'], user.username)
 
     def test_get_query_other_users(self):
@@ -87,12 +87,46 @@ class TestViewSets(TestsMixin, TestCase):
             summary='teste',
         )
 
-        resp = self.get('/reviews/', )
+        resp = self.get('/reviews/', status_code=status.HTTP_200_OK)
         self.assertEqual(resp.json, [])
 
 
+    def test_get_query_superuser(self):
+        user = User.objects.create_superuser(self.USERNAME, '', self.PASS, )
+        user_test = User.objects.create_user('tester11', '', 'tester11')
 
-    # def test_get_query_not_superuser(self):
+        self.login()
+        self.post(self.login_url, data=self.payload, status_code=status.HTTP_200_OK)                
 
-    #     resp = self.post(self.login_url, data=self.payload, status_code=400)
-    #     self.assertEqual(resp.json['non_field_errors'][0], u'Must include "email" and "password".')
+        review = Review.objects.create(
+            user=user_test,
+            rating='3',
+            title='teste',
+            summary='teste',
+        )
+
+        resp = self.get('/reviews/', status_code=status.HTTP_200_OK)
+        self.assertEqual(resp.json[0]['user']['username'], user_test.username)
+
+    def test_post_with_ipaddr(self):
+
+        user = User.objects.create_user(self.USERNAME, '', self.PASS)
+        rev_payload = {
+            "rating": "3",
+            "title": "teste",
+            "summary": "teste",        
+        }
+
+        self.login()
+        self.post(self.login_url, data=self.payload, status_code=status.HTTP_200_OK)
+
+        self.post(
+            '/reviews/',
+            data=rev_payload,
+            status_code=status.HTTP_201_CREATED,
+            REMOTE_ADDR="127.0.0.1"
+        )
+
+        resp = self.get('/reviews/', status_code=status.HTTP_200_OK)
+
+        self.assertEqual(resp.json[0]['ip_address'], "127.0.0.1")
