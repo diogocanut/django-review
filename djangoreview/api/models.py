@@ -26,11 +26,14 @@ class Review(models.Model):
     )
 
     sub_date = models.DateTimeField('submission date', auto_now=True)
-    ip_address = models.GenericIPAddressField()
+    ip_address = models.GenericIPAddressField(
+        blank=True,
+        null=True,
+    )
     company_name = models.CharField(
         max_length=64,
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
     )
 
     def __str__(self):

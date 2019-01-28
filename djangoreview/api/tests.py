@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_auth.tests.mixins import TestsMixin
 from django.contrib.auth.models import User
 from django.urls import reverse
+from .models import Review
 
 
 class TestViewSets(TestsMixin, TestCase):
@@ -56,10 +57,40 @@ class TestViewSets(TestsMixin, TestCase):
 
     def test_get_query_with_login(self):
         user = User.objects.create_user(self.USERNAME, '', self.PASS)
+
         self.login()
         self.post(self.login_url, data=self.payload, status_code=status.HTTP_200_OK)
+
         resp = self.get('/reviews/', )
         self.assertEqual(resp.json, [])
+
+        review = Review.objects.create(
+            user=user,
+            rating='3',
+            title='teste',
+            summary='teste',
+        )
+        resp = self.get('/reviews/', )
+        self.assertEqual(resp.json[0]['user']['username'], user.username)
+
+    def test_get_query_other_users(self):
+        user = User.objects.create_user(self.USERNAME, '', self.PASS)
+        user_test = User.objects.create_user('tester11', '', 'tester11')
+
+        self.login()
+        self.post(self.login_url, data=self.payload, status_code=status.HTTP_200_OK)                
+
+        review = Review.objects.create(
+            user=user_test,
+            rating='3',
+            title='teste',
+            summary='teste',
+        )
+
+        resp = self.get('/reviews/', )
+        self.assertEqual(resp.json, [])
+
+
 
     # def test_get_query_not_superuser(self):
 
