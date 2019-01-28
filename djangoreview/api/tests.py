@@ -33,6 +33,10 @@ class TestViewSets(TestsMixin, TestCase):
     def setUp(self):
         self.init()
 
+    # def test_get_query_with_no_login(self):
+    #     resp = self.get(self.login_url, status_code=200)
+
+
     def test_registration(self):
         user_count = User.objects.all().count()
 
@@ -47,7 +51,7 @@ class TestViewSets(TestsMixin, TestCase):
     def login(self):
         self.post(self.login_url, data=self.payload, status_code=status.HTTP_200_OK)
 
-    # def test_review_queryset_notsuperuser(self):
+    # def test_get_query_not_superuser(self):
 
     #     resp = self.post(self.login_url, data=self.payload, status_code=400)
     #     self.assertEqual(resp.json['non_field_errors'][0], u'Must include "email" and "password".')
