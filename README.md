@@ -1,29 +1,29 @@
 ## Running the project:
 
-    1- Clone this repo
+    1. Clone this repo
 
-    2 - Create a virtualenv with python 3.6 and activate it:
-        >virtualenv djangoreview --python=python3.6
-        >source djangoreview/bin/activate
+    2. Create a virtualenv with python 3.6 and activate it:
+        > virtualenv djangoreview --python=python3.6
+        > source djangoreview/bin/activate
 
-    3 - Create a database named djangoreview and change the project settings with your postgres user and password
-        >su postgres
-        >psql
-        >CREATE DATABASE djangoreview;
+    3. Create a database named djangoreview and change the project settings with your postgres user and password
+        > su postgres
+        > psql
+        > CREATE DATABASE djangoreview;
         
 
-    4 - Install requirements
-        >cd djangoreview
-        >pip install -r requirements.txt
+    4. Install requirements
+        > cd djangoreview
+        > pip install -r requirements.txt
 
-    5 - Run migrations
-        >python manage.py migrate
+    5. Run migrations
+        > python manage.py migrate
 
-    6 - Create a superuser.
-        >python manage.py createsuperuser
+    6. Create a superuser.
+        > python manage.py createsuperuser
 
-    7 - Run server
-        >python manage.py runserver
+    7. Run server
+        > python manage.py runserver
 
     Now the server is running in localhost.
 
