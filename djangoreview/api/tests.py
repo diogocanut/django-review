@@ -30,6 +30,7 @@ class TestViewSets(TestsMixin, TestCase):
         self.login_url = reverse('rest_login')
         self.logout_url = reverse('rest_logout')
         self.register_url = reverse('rest_register')
+        self.reviews_url = '/v1/reviews/'
 
     def login(self):
         self.post(self.login_url, data=self.payload, status_code=status.HTTP_200_OK)
@@ -41,7 +42,7 @@ class TestViewSets(TestsMixin, TestCase):
         self.init()
 
     def test_get_query_with_no_login(self):
-        resp = self.get('/reviews/', status_code=403)
+        resp = self.get(self.reviews_url, status_code=403)
         self.assertEqual(resp.json['detail'], u'Authentication credentials were not provided.')
 
     def test_registration(self):
@@ -61,7 +62,7 @@ class TestViewSets(TestsMixin, TestCase):
         self.login()
         self.post(self.login_url, data=self.payload, status_code=status.HTTP_200_OK)
 
-        resp = self.get('/reviews/', status_code=status.HTTP_200_OK)
+        resp = self.get(self.reviews_url, status_code=status.HTTP_200_OK)
         self.assertEqual(resp.json, [])
 
         review = Review.objects.create(
@@ -70,7 +71,7 @@ class TestViewSets(TestsMixin, TestCase):
             title='teste',
             summary='teste',
         )
-        resp = self.get('/reviews/', status_code=status.HTTP_200_OK)
+        resp = self.get(self.reviews_url, status_code=status.HTTP_200_OK)
         self.assertEqual(resp.json[0]['user']['username'], user.username)
 
     def test_get_query_other_users(self):
@@ -87,7 +88,7 @@ class TestViewSets(TestsMixin, TestCase):
             summary='teste',
         )
 
-        resp = self.get('/reviews/', status_code=status.HTTP_200_OK)
+        resp = self.get(self.reviews_url, status_code=status.HTTP_200_OK)
         self.assertEqual(resp.json, [])
 
 
@@ -105,7 +106,7 @@ class TestViewSets(TestsMixin, TestCase):
             summary='teste',
         )
 
-        resp = self.get('/reviews/', status_code=status.HTTP_200_OK)
+        resp = self.get(self.reviews_url, status_code=status.HTTP_200_OK)
         self.assertEqual(resp.json[0]['user']['username'], user_test.username)
 
     def test_post_with_ipaddr(self):
@@ -121,12 +122,12 @@ class TestViewSets(TestsMixin, TestCase):
         self.post(self.login_url, data=self.payload, status_code=status.HTTP_200_OK)
 
         self.post(
-            '/reviews/',
+            self.reviews_url,
             data=rev_payload,
             status_code=status.HTTP_201_CREATED,
             REMOTE_ADDR="127.0.0.1"
         )
 
-        resp = self.get('/reviews/', status_code=status.HTTP_200_OK)
+        resp = self.get(self.reviews_url, status_code=status.HTTP_200_OK)
 
         self.assertEqual(resp.json[0]['ip_address'], "127.0.0.1")
