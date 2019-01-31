@@ -32,10 +32,10 @@ Reviews
 
     Only for logged users.
 
-- /v1/rest-auth/reviews/ (GET)
+- /v1/reviews/ (GET)
     Returns id, user, rating, title, summary, sub_date, ip_address, company_name
 
-- /v1/rest-auth/reviews/ (POST)
+- /v1/reviews/ (POST)
 
     - rating (1-5)
     - title
