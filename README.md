@@ -32,10 +32,10 @@
 
     Registration with django rest-auth on url localhost:8000/rest-auth/registration/
 
-    Login on localhost:8000/rest-auth/login/
+    Login on localhost:8000/v1/rest-auth/login/
 
-    Logout on localhost:8000/rest-auth/logout/
+    Logout on localhost:8000/v1/rest-auth/logout/
 
-    The review api is on localhost:8000/reviews/
+    The review api is on localhost:8000/v1/reviews/
 
-    Only logged in users can post reviews, a GET method on localhost:8000/reviews/ will only return the reviews submitted by the logged user, except for the superuser, that can receive all the reviews.
+    Only logged in users can post reviews, a GET method on localhost:8000/v1/reviews/ will only return the reviews submitted by the logged user, except for the superuser, that can receive all the reviews.
