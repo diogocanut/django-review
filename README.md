@@ -30,7 +30,7 @@
 
 ## Usage: 
 
-    Registration with django rest-auth on url localhost:8000/rest-auth/registration/
+    Registration with django rest-auth on url localhost:8000/v1/rest-auth/registration/
 
     Login on localhost:8000/v1/rest-auth/login/
 
