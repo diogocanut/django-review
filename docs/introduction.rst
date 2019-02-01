@@ -8,5 +8,5 @@ Features
 
 * User Registration with activation
 * Login/Logout
-* Reviews submission.
+* Reviews submission
 
